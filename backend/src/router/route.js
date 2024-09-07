@@ -34,9 +34,9 @@ router.post("/insertfood", async (req, res) => {
   const newFood = new FoodModel(food);
   if(food.lat === undefined || food.lng === undefined){
     const pos = await addressToPos(food.address);
-    console.log(pos)
-    food.lat = pos.lat;
-    food.lng = pos.lng;
+    console.log(pos);
+    newFood.lat = pos.lat;
+    newFood.lng = pos.lng;
   }try {
     await newFood.save();
     res.send("success");
