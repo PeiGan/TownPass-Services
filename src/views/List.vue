@@ -54,7 +54,7 @@ useHandleConnectionData(handleUserInfo);
 const activities = ref([]);
 
 onMounted( async () => {
-  await axios.post('http://localhost:3000/getbyuserid', { userid: "" }).then((response) => {
+  await axios.post('http://localhost:3000/getbyuserid', { userid: user?.value.id }).then((response) => {
     activities.value = response.data;
   });
 });
