@@ -1,5 +1,6 @@
 import express from "express";
 import FoodModel from "../model/model.js";
+import addressToPos from "../util/position.js";
 
 const router = express.Router();
 
@@ -31,7 +32,11 @@ router.get("/getbyuserid", async (req, res) => {
 router.post("/insertfood", async (req, res) => {
   const food = req.body;
   const newFood = new FoodModel(food);
-  try {
+  if(food.lat === undefined || food.lng === undefined){
+    const pos = addressToPos(food.address);
+    food.lat = pos.lat;
+    food.lng = pos.lng;
+  }try {
     await newFood.save();
     res.send("success");
   } catch (e) {
