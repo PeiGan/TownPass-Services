@@ -65,13 +65,33 @@ export interface Spot {
 const googleMapsStore = useGoogleMapsStore();
 
 const selectedSearchData = ref<Place>({
-  id: '',
-  name: '',
+  id: 'pa-1',
+  name: '微笑單車 2.0',
   icon: '',
-  agency: '',
-  type: '',
-  request_url: '',
+  agency: '台北市政府交通局',
+  type: '交通運輸、停車場、充電站',
+  request_url: 'https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v2/youbike_immediate.json',
   data_path: ''
+});
+
+// 使用 ref 來引用子組件
+const findPlaceRef = ref();
+
+const defaultPlace: Place = {
+  id: 'pa-1',
+  name: '微笑單車 2.0',
+  icon: '',
+  agency: '台北市政府交通局',
+  type: '交通運輸、停車場、充電站',
+  request_url: 'https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v2/youbike_immediate.json',
+  data_path: ''
+};
+
+// 當父組件載入時，呼叫 FindPlace 的 onSelect 函數
+onMounted(() => {
+  if (findPlaceRef.value) {
+    findPlaceRef.value.onSelect(defaultPlace); // 呼叫子組件的 onSelect
+  }
 });
 
 /** 搜尋結果 */
@@ -171,7 +191,7 @@ const initMap = (lat: number, lng: number) => {
       // 限制使用者能縮放地圖的最大比例
       maxZoom: 20,
       // 限制使用者能縮放地圖的最小比例
-      minZoom: 3,
+      minZoom: 10,
       // 設定是否呈現右下角街景小人
       streetViewControl: false,
       // 設定是否讓使用者可以切換地圖樣式：一般、衛星圖等
@@ -398,12 +418,16 @@ watch(searchSpotList, updateMarkers);
 
 <template>
   <div class="pb-8 h-screen">
+    <section class="bg-grey-50 px-4 pt-5 pb-4">
+      <h1 class="font-bold text-xl mt-4">惜食地圖</h1>
+    </section>
     <div
       :class="{ hidden: isExpandList || isExpandDetail, visible: !isExpandList && !isExpandDetail }"
     >
       <!-- 找地點搜尋框 -->
-      <div class="flex items-center">
+      <div class="flex items-center hidden">
         <FindPlace
+          ref="findPlaceRef" 
           @onSearchChange="(value) => handleSearchChange(value)"
           @update:isExpand="handleExpandChange"
         />

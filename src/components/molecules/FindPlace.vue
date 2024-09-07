@@ -103,8 +103,12 @@ const onSelect = (place: Place) => {
     searchHistoryList.value[0].places.unshift(place);
   }
 
-  toggleExpand();
+  //toggleExpand();
 };
+
+defineExpose({
+  onSelect,
+});
 </script>
 
 <template>
