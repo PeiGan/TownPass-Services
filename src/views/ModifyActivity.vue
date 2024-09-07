@@ -1,6 +1,45 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import BaseButton from '@/components/atoms/BaseButton.vue';
+import FindPlace, { type Place } from '@/components/molecules/FindPlace.vue';
+import SpotList from '@/components/organisms/SpotListView.vue';
+import SpotDetail from '@/components/organisms/SpotDetailView.vue';
+import MessageModal from '@/components/molecules/MessageModal.vue';
+import { useGoogleMapsStore } from '@/stores/googleMaps';
+import axios from 'axios';
+import { onMounted, ref, watch } from 'vue';
+import { MarkerClusterer, SuperClusterAlgorithm } from '@googlemaps/markerclusterer';
+import greenDotIconUrl from '/public/images/map/youbike/mappin-green.svg';
+import defaultFocusIconUrl from '/public/images/map/icon_mappin-garbagetruck-green-pressed.svg';
+import { mappingFormatter, getNestedValue } from '@/utils/spot-formatter';
+import { computed } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
+import { useFormStore } from '@/stores/form';
+import { useUserStore } from '@/stores/user';
+import { storeToRefs } from 'pinia';
+import { useConnectionMessage } from '@/composables/useConnectionMessage';
+import { useHandleConnectionData } from '@/composables/useHandleConnectionData';
+import ServiceTabsView from '@/components/organisms/ServiceTabsView.vue';
+import BaseInput from '@/components/atoms/BaseInput.vue';
+import ServiceStep from '@/components/molecules/ServiceStep.vue';
+import serviceListJson from '../../public/mock/service_list.json';
+import caseProgressJson from '../../public/mock/case_progress.json';
+import type { User } from '@/stores/user';
+
+const userStore = useUserStore();
+
+const { user } = storeToRefs(userStore);
+
+const handleUserInfo = (event: { data: string }) => {
+  const result: { name: string; data: User } = JSON.parse(event.data);
+
+  user.value = result.data;
+};
+
+useConnectionMessage('userinfo', null);
+
+useHandleConnectionData(handleUserInfo);
+
 
 const props = defineProps<{
   submitForm: { name: string; participants: number; info: string };
