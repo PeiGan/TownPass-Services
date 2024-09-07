@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import BaseButton from '@/components/atoms/BaseButton.vue';
 import FindPlace, { type Place } from '@/components/molecules/FindPlace.vue';
 import SpotList from '@/components/organisms/SpotListView.vue';
 import SpotDetail from '@/components/organisms/SpotDetailView.vue';
@@ -65,27 +66,13 @@ export interface Spot {
 const googleMapsStore = useGoogleMapsStore();
 
 const selectedSearchData = ref<Place>({
-  id: 'pa-1',
-  name: '微笑單車 2.0',
-  icon: '',
-  agency: '台北市政府交通局',
-  type: '交通運輸、停車場、充電站',
-  request_url: 'https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v2/youbike_immediate.json',
-  data_path: ''
-});
+  id: 'pc-1'});
 
 // 使用 ref 來引用子組件
 const findPlaceRef = ref();
 
 const defaultPlace: Place = {
-  id: 'pa-1',
-  name: '微笑單車 2.0',
-  icon: '',
-  agency: '台北市政府交通局',
-  type: '交通運輸、停車場、充電站',
-  request_url: 'https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v2/youbike_immediate.json',
-  data_path: ''
-};
+  id: 'pc-1'};
 
 // 當父組件載入時，呼叫 FindPlace 的 onSelect 函數
 onMounted(() => {
@@ -191,7 +178,7 @@ const initMap = (lat: number, lng: number) => {
       // 限制使用者能縮放地圖的最大比例
       maxZoom: 20,
       // 限制使用者能縮放地圖的最小比例
-      minZoom: 10,
+      minZoom: 0,
       // 設定是否呈現右下角街景小人
       streetViewControl: false,
       // 設定是否讓使用者可以切換地圖樣式：一般、衛星圖等
@@ -418,9 +405,18 @@ watch(searchSpotList, updateMarkers);
 
 <template>
   <div class="pb-8 h-screen">
-    <section class="bg-grey-50 px-4 pt-5 pb-4">
-      <h1 class="font-bold text-xl mt-4">惜食地圖</h1>
-    </section>
+    <div class="grid grid-cols-2 gap-x-2 px-4 mt-4">
+      <section class="bg-grey-50 px-4 pt-5 pb-4">
+        <h1 class="font-bold text-xl mt-4">惜食地圖</h1>
+      </section>
+      <BaseButton 
+        class="py-2 px-4" 
+        @click="$router.push({ path: '/list' })"
+      >
+        我有多的便當
+      </BaseButton>
+    </div>
+    
     <div
       :class="{ hidden: isExpandList || isExpandDetail, visible: !isExpandList && !isExpandDetail }"
     >

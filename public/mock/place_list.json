@@ -98,6 +98,48 @@
           ]
         }
       ]
+    },
+    {
+      "name": "食物",
+      "places": [
+        {
+          "id": "pc-1",
+          "name": "多訂的便當/食物",
+          "icon": "/images/icon_toilet.svg",
+          "agency": "台北市民自行回報",
+          "type": "食物",
+          "data_type": "api",
+          "request_url": "http://localhost:3000/getall",
+          "data_path": "",
+          "format_fields": {
+            "id": "id",
+            "name": "name",
+            "area": "city",
+            "address": "address",
+            "lat": "latitude",
+            "lng": "longitude"
+          },
+          "service_infos": [
+            {
+              "title": "備註",
+              "value_fields": [
+                {
+                  "title": "可借車輛",
+                  "value_field": "available_rent_bikes"
+                },
+                {
+                  "title": "可停空位",
+                  "value_field": "available_return_bikes"
+                }
+              ]
+            },
+            {
+              "title": "更新時間",
+              "value_field": "updateTime"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
