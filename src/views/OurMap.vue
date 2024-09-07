@@ -274,13 +274,16 @@ const fetchAndFormatData = async (
   serviceInfos: any,
   dataPath: string
 ) => {
-  try {
-    const response = await axios.get(url);
-    return formatSpotData(response.data, formatter, formatFields, serviceInfos, dataPath);
-  } catch (error) {
-    console.error(`Failed to fetch data from ${url}:`, error);
-    return [];
-  }
+  // try {
+  //   const response = await axios.get(url);
+  //   return formatSpotData(response.data, formatter, formatFields, serviceInfos, dataPath);
+  // } catch (error) {
+  //   console.error(`Failed to fetch data from ${url}:`, error);
+  //   return [];
+  // }
+  const data = await fetch(url);
+  const dataJSON = await data.json();
+  return dataJSON;
 };
 
 const formatSpotData = (
