@@ -405,12 +405,12 @@ watch(searchSpotList, updateMarkers);
 
 <template>
   <div class="pb-8 h-screen">
-    <div class="py-2 bg-white"> <!-- 添加一層空白 div，並增加 padding 和背景色 -->
+    <!-- <div class="py-2 bg-white">
       <div class="grid grid-cols-2 gap-x-4 px-4 mt-4">
         <section class="bg-grey-50 flex items-center justify-center text-center px-4 pt-5 pb-4">
           <h1 class="font-bold text-4xl text-gray-800 tracking-wide leading-snug shadow-lg">
             惜食地圖
-          </h1> <!-- 修改標題樣式，加大字體，增加文字間距、陰影等效果 -->
+          </h1>
         </section>
         <div class="flex items-center justify-center">
           <BaseButton 
@@ -421,7 +421,7 @@ watch(searchSpotList, updateMarkers);
           </BaseButton>
         </div>
       </div>
-    </div>
+    </div> -->
 
 
     <div
@@ -440,6 +440,9 @@ watch(searchSpotList, updateMarkers);
         <div class="google-map" id="map"></div>
         <div v-if="isMapReady" class="gps" @click="getPositionClick">
           <img src="@/assets/images/gps.png" width="20" alt="" />
+        </div>
+        <div v-if="isMapReady" class="plus" @click="$router.push({ path: '/list' })">
+          <img src="@/assets/images/add-white.svg" width="80" alt="" />
         </div>
       </div>
       <!-- 選取的點 -->
@@ -547,6 +550,22 @@ watch(searchSpotList, updateMarkers);
   user-select: none;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
   border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plus {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  background-color: rgb(46, 182, 199);
+  width: 120px;
+  height: 120px;
+  user-select: none;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+  border-radius: 60px;
   cursor: pointer;
   display: flex;
   align-items: center;
