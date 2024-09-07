@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive, watch } from 'vue';
+import BaseButton from '@/components/atoms/BaseButton.vue';
 import BaseInput from '@/components/atoms/BaseInput.vue';
 import BaseSelect from '@/components/atoms/BaseSelect.vue';
 import BaseTextarea from '@/components/atoms/BaseTextarea.vue';
@@ -24,7 +25,7 @@ const props = withDefaults(
   }
 );
 
-const emit = defineEmits(['onFormChange']);
+const emit = defineEmits(['onFormChange', 'onFormSubmit', 'onCancel']);
 
 const form = reactive<BasicForm>({
   name: '',
@@ -36,6 +37,7 @@ const form = reactive<BasicForm>({
   photo: ''
 });
 
+// Watch the form changes
 watch(
   () => form,
   () => {
@@ -61,6 +63,16 @@ watch(
   { deep: true }
 );
 
+// Function to handle form submission
+const handleSubmit = () => {
+  emit('onFormSubmit', form);
+};
+
+// Function to handle form cancellation
+const handleCancel = () => {
+  emit('onCancel');
+};
+
 const categoryOptions = [
   { label: '主食', value: 'food' },
   { label: '點心', value: 'snack' },
@@ -73,20 +85,13 @@ const dietOptions = [
   { label: '素', value: 'vegetarian' },
   { label: '蛋奶素', value: 'half-vegetarian' }
 ];
-
-const handleSubmit = () => {
-  console.log(form);
-  const formDataJson = JSON.stringify(form);
-  console.log('Form Data:', formDataJson);
-  debugger;
-};
 </script>
 
 <template>
   <section>
-    <div class="py-5 px-4">
-      <div class="grid grid-rows-[1fr] transition-all">
-        <div class="overflow-hidden flex flex-col gap-4 pt-5">
+    <!-- Form fields as in the original code -->
+    <div class="grid grid-rows-[1fr] transition-all">
+      <div class="overflow-hidden flex flex-col gap-4 pt-5">
           <!-- Name field -->
           <div class="flex flex-col">
             <label for="name" class="field-label">
@@ -218,13 +223,9 @@ const handleSubmit = () => {
               v-model="form.photo"
             />
           </div>
-
-          <!-- Submit Button -->
-          <div class="flex justify-end mt-5">
-            <button @click="handleSubmit" class="px-4 py-2 bg-primary-500 text-white rounded">
-              送出
-            </button>
-          </div>
+          <div class="flex justify-between mt-4">
+          <BaseButton outline @click="handleCancel">取消</BaseButton>
+          <BaseButton @click="handleSubmit">確認</BaseButton>
         </div>
       </div>
     </div>

@@ -405,18 +405,25 @@ watch(searchSpotList, updateMarkers);
 
 <template>
   <div class="pb-8 h-screen">
-    <div class="grid grid-cols-2 gap-x-2 px-4 mt-4">
-      <section class="bg-grey-50 px-4 pt-5 pb-4">
-        <h1 class="font-bold text-xl mt-4">惜食地圖</h1>
-      </section>
-      <BaseButton 
-        class="py-2 px-4" 
-        @click="$router.push({ path: '/list' })"
-      >
-        我有多的便當
-      </BaseButton>
+    <div class="py-2 bg-white"> <!-- 添加一層空白 div，並增加 padding 和背景色 -->
+      <div class="grid grid-cols-2 gap-x-4 px-4 mt-4">
+        <section class="bg-grey-50 flex items-center justify-center text-center px-4 pt-5 pb-4">
+          <h1 class="font-bold text-4xl text-gray-800 tracking-wide leading-snug shadow-lg">
+            惜食地圖
+          </h1> <!-- 修改標題樣式，加大字體，增加文字間距、陰影等效果 -->
+        </section>
+        <div class="flex items-center justify-center">
+          <BaseButton 
+            class="w-34 h-12" 
+            @click="$router.push({ path: '/list' })"
+          >
+            我有多的便當
+          </BaseButton>
+        </div>
+      </div>
     </div>
-    
+
+
     <div
       :class="{ hidden: isExpandList || isExpandDetail, visible: !isExpandList && !isExpandDetail }"
     >

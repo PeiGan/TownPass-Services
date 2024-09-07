@@ -25,6 +25,7 @@ import ServiceStep from '@/components/molecules/ServiceStep.vue';
 import serviceListJson from '../../public/mock/service_list.json';
 import caseProgressJson from '../../public/mock/case_progress.json';
 import type { User } from '@/stores/user';
+import Form from '@/components/molecules/Form.vue';
 
 const userStore = useUserStore();
 
@@ -40,21 +41,23 @@ useConnectionMessage('userinfo', null);
 
 useHandleConnectionData(handleUserInfo);
 
-
 const emit = defineEmits(['onModify', 'onConfirm']);
 
-const name = ref('');
-const participants = ref(0);
-const info = ref('');
+const formData = ref({}); // Hold form data
 
-const onCancelClick = () => {
-  emit('onModify');
+const onFormSubmit = (submittedData: any) => {
+  formData.value = submittedData;
+  if (formData.value.name && formData.value.quantity > 0) {
+    console.log('Form submitted:', formData.value);
+    emit('onConfirm', formData.value);
+  } else {
+    console.log('表單資料不完整或不合法');
+  }
 };
 
-const onConfirmClick = () => {
-  if (name.value && participants.value > 0) {
-    emit('onConfirm', { name: name.value, participants: participants.value, info: info.value });
-  }
+const onCancelClick = () => {
+  console.log('取消操作');
+  emit('onModify');
 };
 </script>
 
@@ -63,26 +66,8 @@ const onConfirmClick = () => {
     <section class="bg-grey-50 px-4 pt-5 pb-4">
       <h1 class="font-bold text-xl mt-4">新增活動</h1>
     </section>
-    <ul class="px-4 py-2 flex flex-col gap-y-4">
-      <li>
-        <label for="name">活動名稱</label>
-        <input id="name" v-model="name" type="text" class="border p-2 w-full" />
-      </li>
-      <li>
-        <label for="participants">參加人數</label>
-        <input id="participants" v-model="participants" type="number" class="border p-2 w-full" />
-      </li>
-      <li>
-        <label for="info">額外資訊</label>
-        <input id="info" v-model="info" type="text" class="border p-2 w-full" />
-      </li>
-    </ul>
 
-    <div class="grid grid-cols-2 gap-x-2 px-4 mt-4">
-      <!-- 取消按鈕 -->
-      <BaseButton outline @click="onCancelClick">取消</BaseButton>
-      <!-- 確認按鈕 -->
-      <BaseButton @click="onConfirmClick">確認</BaseButton>
-    </div>
+    <!-- Listen to the form submit and cancel events -->
+    <Form @onFormSubmit="onFormSubmit" @onCancel="onCancelClick" />
   </section>
 </template>
