@@ -86,6 +86,9 @@ const emit = defineEmits(['update:isExpandDetail']);
       <div>
         <span>更新時間：{{ selectedSpot.updatedAt }}</span>
       </div>
+      <div>
+        <img :src="selectedSpot.photo" style="width:100%;"/>
+      </div>
     </div>
   </div>
 </template>
