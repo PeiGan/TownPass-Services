@@ -26,6 +26,7 @@ import BaseInput from '@/components/atoms/BaseInput.vue';
 import ServiceStep from '@/components/molecules/ServiceStep.vue';
 import serviceListJson from '../../public/mock/service_list.json';
 import caseProgressJson from '../../public/mock/case_progress.json';
+import defineComponent from 'vue';
 import type { User } from '@/stores/user';
 
 const activeStep = ref(1);
@@ -47,13 +48,23 @@ useHandleConnectionData(handleUserInfo);
 
 // 初始活動列表，包含表單的所有字段，包括圖片
 
-const data = await fetch('http://localhost:3000/getbyuserid',{ userid: user?.value.id });
-const activities = ref(await data.json());
+//const data = await fetch('http://localhost:3000/getbyuserid',{ userid: user?.value.id });
+//const activities = ref(await data.json());
 
-// const activities = ref([
-//   { name: '活動1', category: '食物', diet: '葷', address: '地址1', quantity: 1, notes: '備註1', photo: '圖片URL1' },
-//   { name: '活動2', category: '飲料', diet: '素', address: '地址2', quantity: 2, notes: '備註2', photo: '圖片URL2' }
-// ]);
+const activities = ref([]);
+
+onMounted( async () => {
+  await axios.post('http://localhost:3000/getbyuserid', { userid: "" }).then((response) => {
+    activities.value = response.data;
+  });
+});
+
+/*
+const activities = ref([
+   { name: '活動1', category: '食物', diet: '葷', address: '地址1', quantity: 1, notes: '備註1', photo: '圖片URL1' },
+   { name: '活動2', category: '飲料', diet: '素', address: '地址2', quantity: 2, notes: '備註2', photo: '圖片URL2' }
+]);
+*/
 
 // 刪除活動
 const removeActivity = (index: number) => {

@@ -19,8 +19,9 @@ router.get("/getall", async (req, res) => {
   }
 });
 
-router.get("/getbyuserid", async (req, res) => {
+router.post("/getbyuserid", async (req, res) => {
   const userid = req.body.userid;
+  console.log(userid);
   try {
     const data = await FoodModel.find({ userid: userid });
     res.send(data);
