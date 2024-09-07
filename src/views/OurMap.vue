@@ -66,13 +66,27 @@ export interface Spot {
 const googleMapsStore = useGoogleMapsStore();
 
 const selectedSearchData = ref<Place>({
-  id: 'pc-1'});
+  id: 'pc-1',
+  name: '多訂的便當/食物',
+  icon: '/images/icon_toilet.svg',
+  agency: '台北市民自行回報',
+  type: '食物',
+  request_url: 'http://localhost:3000/getall',
+  data_path: ''
+});
 
 // 使用 ref 來引用子組件
 const findPlaceRef = ref();
 
 const defaultPlace: Place = {
-  id: 'pc-1'};
+  id: 'pc-1',
+  name: '多訂的便當/食物',
+  icon: '/images/icon_toilet.svg',
+  agency: '台北市民自行回報',
+  type: '食物',
+  request_url: 'http://localhost:3000/getall',
+  data_path: ''
+};
 
 // 當父組件載入時，呼叫 FindPlace 的 onSelect 函數
 onMounted(() => {

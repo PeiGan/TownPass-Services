@@ -88,7 +88,6 @@ const onConfirm = (newActivity: { name: string; participants: number; info: stri
             <p>地址: {{ activity.address }}</p>
             <p>份數: {{ activity.quantity }}</p>
             <p>備註: {{ activity.notes }}</p>
-            <p>額外資訊: {{ activity.info }}</p>
             <div v-if="activity.photo">
               <p>照片:</p>
               <img :src="activity.photo" alt="活動照片" class="w-32 h-32 object-cover rounded-md">
@@ -116,7 +115,7 @@ const onConfirm = (newActivity: { name: string; participants: number; info: stri
 
     <!-- 修改活動頁面 -->
     <div v-if="activeStep === 3">
-      <ModifyActivity :submitForm="activities[editIndex]" @onModify="onModify" @onConfirm="onConfirm" />
+      <ModifyActivity v-if="editIndex !== null" :submitForm="activities[editIndex]" @onModify="onModify" @onConfirm="onConfirm" />
     </div>
   </div>
 </template>
