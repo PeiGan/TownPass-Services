@@ -173,7 +173,7 @@ const onCancelClick = () => {
 <template>
   <section>
     <section class="bg-grey-50 px-4 pt-5 pb-4">
-      <h1 class="font-bold text-xl mt-4">新增活動</h1>
+      <h1 class="font-bold text-xl mt-4">新增餐食</h1>
     </section>
 
     <!-- Listen to the form submit and cancel events -->
