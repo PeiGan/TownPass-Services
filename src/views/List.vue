@@ -74,8 +74,8 @@ const onConfirm = (newActivity: { name: string; participants: number; info: stri
   <div class="pb-8">
     <!-- 活動列表展示區 -->
     <form v-show="activeStep === 1" @submit.stop="">
-      <section class="bg-grey-50 px-4 pt-5 pb-4">
-        <h1 class="font-bold text-xl mt-4">活動列表</h1>
+      <section class="fixed top-0 left-0 z-10 w-screen bg-grey-50 px-4 pt-5 pb-4 flex justify-between">
+        <span class="font-bold text-xl mt-4">活動列表</span>
       </section>
       <ul class="mt-4">
         <li v-for="(activity, index) in activities" :key="index"
