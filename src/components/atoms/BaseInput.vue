@@ -32,9 +32,7 @@ watch(
     :class="{ 'base-input--warn': required && !isValidate }"
     @input="validate"
   />
-  <p v-if="required && !isValidate" class="mt-2 text-right text-warn-200 text-sm">
-    {{ props.label }}不能為空
-  </p>
+  <p v-if="required && !isValidate" class="mt-2 text-right text-warn-200 text-sm">不能為空</p>
 </template>
 
 <style lang="postcss">

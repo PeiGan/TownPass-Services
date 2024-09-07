@@ -262,8 +262,8 @@ const dietOptions = [
             />
           </div>
           <div class="flex justify-between mt-4">
-            <BaseButton outline @click="handleCancel">取消</BaseButton>
-            <BaseButton @click="handleSubmit">確認</BaseButton>
+            <BaseButton outline @click="handleCancel" class="w-1/2 mr-2">取消</BaseButton>
+            <BaseButton @click="handleSubmit" class="w-1/2 ml-2">確認</BaseButton>
           </div>
         </div>
       </div>

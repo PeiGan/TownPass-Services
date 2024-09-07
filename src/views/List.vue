@@ -80,6 +80,7 @@ const onConfirm = (newActivity: { name: string; participants: number; info: stri
       <ul class="mt-20">
         <li v-for="(activity, index) in activities" :key="index"
           class="flex items-start justify-between p-4 bg-white shadow-sm mb-2 rounded">
+<<<<<<< HEAD
           <ul class="flex flex-col gap-y-2">
             <li class="font-bold text-xl">{{ activity.name }}</li>
             
@@ -98,6 +99,18 @@ const onConfirm = (newActivity: { name: string; participants: number; info: stri
 
             <li>備註: {{ activity.notes }}</li>
             <li v-if="activity.photo">照片: 
+=======
+          <div>
+            <h3 class="text-lg font-semibold">{{ activity.name }}</h3>
+            <p>參加人數: {{ activity.participants }}</p>
+            <p>類別: {{ activity.category }}</p>
+            <p>葷/素: {{ activity.diet }}</p>
+            <p>地址: {{ activity.address }}</p>
+            <p>份數: {{ activity.quantity }}</p>
+            <p>備註: {{ activity.notes }}</p>
+            <div v-if="activity.photo">
+              <p>照片:</p>
+>>>>>>> 11542a5f15194b2823750697b04b4966ebf232a5
               <img :src="activity.photo" alt="活動照片" class="w-32 h-32 object-cover rounded-md">
             </li>
           </ul>

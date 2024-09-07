@@ -19,6 +19,14 @@ const FoodSchema = new schema(
     quantity: Number,
     notes: String,
     photo: String,
+    lat: {
+      type: Number,
+      default: 25.021653,
+    },
+    lng: {
+      type: Number,
+      default: 121.535173,
+    }
   },
   { timestamps: true },
 );
