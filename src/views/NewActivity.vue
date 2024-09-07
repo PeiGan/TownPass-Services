@@ -7,7 +7,7 @@ import SpotDetail from '@/components/organisms/SpotDetailView.vue';
 import MessageModal from '@/components/molecules/MessageModal.vue';
 import { useGoogleMapsStore } from '@/stores/googleMaps';
 import axios from 'axios';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, watch } from 'vue';
 import { MarkerClusterer, SuperClusterAlgorithm } from '@googlemaps/markerclusterer';
 import greenDotIconUrl from '/public/images/map/youbike/mappin-green.svg';
 import defaultFocusIconUrl from '/public/images/map/icon_mappin-garbagetruck-green-pressed.svg';
