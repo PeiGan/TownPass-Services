@@ -4,23 +4,21 @@ const schema = mongoose.Schema;
 
 const FoodSchema = new schema(
   {
-    name: String,
-    amount: Number,
-    address: String,
-    provider: String,
-    veg: String,
-    lat: {
-      type: Number,
-      default: 25.02605
-    },
-    lng:{
-      type: Number,
-      default: 121.5436
-    },
-    memo: {
+    id: {
       type: String,
-      default: "",
+      default: ""
     },
+    userid: {
+      type: String,
+      default: ""
+    },
+    name: String,
+    category: String,
+    diet: String,
+    address: String,
+    quantity: Number,
+    notes: String,
+    photo: String,
   },
   { timestamps: true },
 );

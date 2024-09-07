@@ -104,7 +104,7 @@ const onConfirm = (newActivity: { name: string; participants: number; info: stri
       <div class="w-full h-2 bg-grey-50 my-4"></div>
       <!-- 新增活動按鈕 -->
       <div class="grid grid-cols-2 gap-x-2 px-2">
-        <BaseButton outline link href="https://external-link.com">上一步</BaseButton>
+        <BaseButton outline @click="$router.push({ path: '/ourmap' })">返回地圖</BaseButton>
         <BaseButton @click="navigateToCreateForm">新增活動</BaseButton>
       </div>
     </form>
