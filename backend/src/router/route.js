@@ -6,7 +6,19 @@ const router = express.Router();
 
 router.use(express.json());
 
-router.delete("deletebyid", async (req, res) => {
+router.post("/deletebyid", async (req, res) => {
+  const _id = req.body._id;
+  console.log(req.body);
+  console.log("fuck");
+  console.log("_id: " + _id);
+  try{
+    await FoodModel.deleteOne({
+      _id: _id,
+    })
+    res.send("success");
+  } catch(e){
+    console.log(e);
+  }
 })
 
 router.get("/getall", async (req, res) => {

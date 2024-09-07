@@ -54,7 +54,8 @@ useHandleConnectionData(handleUserInfo);
 const activities = ref([]);
 
 onMounted( async () => {
-  await axios.post('http://localhost:3000/getbyuserid', { userid: user?.value.id }).then((response) => {
+  const userid = (user.value? user.value.id : "");
+  await axios.post('http://localhost:3000/getbyuserid', { userid: userid }).then((response) => {
     activities.value = response.data;
   });
 });
@@ -79,8 +80,24 @@ const navigateToCreateForm = () => {
 
 // 跳轉到修改活動的表單頁面
 const navigateToEditForm = (index: number) => {
+  console.log(index);
   editIndex.value = index;
   activeStep.value = 3;
+};
+
+const deleteCurrentObject = async (_id: String) => {
+  await axios.post('http://localhost:3000/deletebyid', { _id: _id, }).then((response) => {
+    //console.log(response);
+  });
+  const userid = (user.value? user.value.id : "");
+  await axios.post('http://localhost:3000/getbyuserid', { userid: userid }).then((response) => {
+    activities.value = response.data;
+  });
+};
+
+const handleClick = async (index: number, data) => {
+  console.log(data._id);
+  navigateToEditForm(index);
 };
 
 // 取消按鈕回到活動列表
@@ -132,8 +149,8 @@ const onConfirm = (newActivity: { name: string; participants: number; info: stri
           </ul>
 
           <div class="flex flex-col items-end">
-            <BaseButton outline @click="navigateToEditForm(index)" class="mb-2 mr-2">修改</BaseButton>
-            <BaseButton @click="removeActivity(index)" class="mr-2">刪除</BaseButton>
+            <BaseButton outline @click="handleClick(index, activity)" class="mb-2 mr-2">修改</BaseButton>
+            <BaseButton @click="deleteCurrentObject(activity._id)" class="mr-2">刪除</BaseButton>
           </div>
         </li>
       </ul>

@@ -28,7 +28,13 @@ import ServiceTabsView from '@/components/organisms/ServiceTabsView.vue';
 import ServiceStep from '@/components/molecules/ServiceStep.vue';
 import serviceListJson from '../../public/mock/service_list.json';
 import caseProgressJson from '../../public/mock/case_progress.json';
-import type { User } from '@/stores/user';
+import type { User } from '@/stores/user'
+
+/*const props = withDefaults(defineProps<{
+    submitForm: Object,
+  }>(),{
+  submitForm: null,
+});*/
 
 const userStore = useUserStore();
 
