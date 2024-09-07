@@ -9,12 +9,18 @@ import CouponListView from '../views/CouponListView.vue';
 import HotSpotView from '../views/HotSpotView.vue';
 import TicketDetail from '../views/TicketDetail.vue';
 import CouponDetail from '../views/CouponDetail.vue';
+import Main from '../views/Main.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
+      name: 'main',
+      component: Main
+    },
+    {
+      path: '/home',
       name: 'home',
       component: HomeView
     },
