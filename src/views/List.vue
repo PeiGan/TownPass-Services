@@ -33,8 +33,8 @@ let editIndex = ref<number | null>(null);
 
 // 初始活動列表，包含表單的所有字段，包括圖片
 const activities = ref([
-  { name: '活動1', participants: 20, info: '額外資訊1', category: '食物', diet: '葷', address: '地址1', quantity: 1, notes: '備註1', photo: '圖片URL1' },
-  { name: '活動2', participants: 30, info: '額外資訊2', category: '飲料', diet: '素', address: '地址2', quantity: 2, notes: '備註2', photo: '圖片URL2' }
+  { name: '活動1', category: '食物', diet: '葷', address: '地址1', quantity: 1, notes: '備註1', photo: '圖片URL1' },
+  { name: '活動2', category: '飲料', diet: '素', address: '地址2', quantity: 2, notes: '備註2', photo: '圖片URL2' }
 ]);
 
 // 刪除活動
@@ -77,35 +77,45 @@ const onConfirm = (newActivity: { name: string; participants: number; info: stri
       <section class="fixed top-0 left-0 z-10 w-screen bg-grey-50 px-4 pt-5 pb-4 flex justify-between">
         <span class="font-bold text-xl mt-4">活動列表</span>
       </section>
-      <ul class="mt-4">
+      <ul class="mt-20">
         <li v-for="(activity, index) in activities" :key="index"
           class="flex items-start justify-between p-4 bg-white shadow-sm mb-2 rounded">
-          <div>
-            <h3 class="text-lg font-semibold">{{ activity.name }}</h3>
-            <p>參加人數: {{ activity.participants }}</p>
-            <p>類別: {{ activity.category }}</p>
-            <p>葷/素: {{ activity.diet }}</p>
-            <p>地址: {{ activity.address }}</p>
-            <p>份數: {{ activity.quantity }}</p>
-            <p>備註: {{ activity.notes }}</p>
-            <p>額外資訊: {{ activity.info }}</p>
-            <div v-if="activity.photo">
-              <p>照片:</p>
+          <ul class="flex flex-col gap-y-2">
+            <li class="font-bold text-xl">{{ activity.name }}</li>
+            
+            <!-- 地址與圖標放在同一行 -->
+            <li class="flex items-center">
+              <img src="@/assets/images/icon-geo.svg" class="w-5 h-5 mr-2" /> 
+              <p class="underline">{{ activity.address }}</p> 
+            </li>
+
+            <!-- 類別、葷素、參加人數、份數放在同一行 -->
+            <li class="flex gap-x-4">
+              <span>類別: {{ activity.category }}</span>
+              <span>葷/素: {{ activity.diet }}</span>
+              <span>份數: {{ activity.quantity }}</span>
+            </li>
+
+            <li>備註: {{ activity.notes }}</li>
+            <li v-if="activity.photo">照片: 
               <img :src="activity.photo" alt="活動照片" class="w-32 h-32 object-cover rounded-md">
-            </div>
-          </div>
+            </li>
+          </ul>
+
           <div class="flex flex-col items-end">
-            <BaseButton outline @click="navigateToEditForm(index)" class="mr-2">修改</BaseButton>
-            <BaseButton @click="removeActivity(index)">刪除</BaseButton>
+            <BaseButton outline @click="navigateToEditForm(index)" class="mb-2 mr-2">修改</BaseButton>
+            <BaseButton @click="removeActivity(index)" class="mr-2">刪除</BaseButton>
           </div>
         </li>
       </ul>
       <!-- 分隔線 -->
-      <div class="w-full h-2 bg-grey-50 my-4"></div>
-      <!-- 新增活動按鈕 -->
-      <div class="grid grid-cols-2 gap-x-2 px-2">
-        <BaseButton outline @click="$router.push({ path: '/ourmap' })">返回地圖</BaseButton>
-        <BaseButton @click="navigateToCreateForm">新增活動</BaseButton>
+      <div class="fixed bottom-16 left-0 z-10 w-full h-2 bg-grey-50 my-4"></div>
+      <div class="fixed bottom-0 left-0 z-5 w-full bg-white px-2 py-2" style = "height: 5rem;">  
+        <!-- 新增活動按鈕 -->
+        <div class="flex w-full gap-x-4">
+          <BaseButton outline @click="$router.push({ path: '/ourmap' })" class="w-1/2">返回地圖</BaseButton>
+          <BaseButton @click="navigateToCreateForm" class="w-1/2">新增活動</BaseButton>
+        </div>
       </div>
     </form>
 
@@ -116,7 +126,7 @@ const onConfirm = (newActivity: { name: string; participants: number; info: stri
 
     <!-- 修改活動頁面 -->
     <div v-if="activeStep === 3">
-      <ModifyActivity :submitForm="activities[editIndex]" @onModify="onModify" @onConfirm="onConfirm" />
+      <ModifyActivity v-if="editIndex !== null" :submitForm="activities[editIndex]" @onModify="onModify" @onConfirm="onConfirm" />
     </div>
   </div>
 </template>
