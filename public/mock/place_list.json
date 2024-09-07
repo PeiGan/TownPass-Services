@@ -112,30 +112,38 @@
           "request_url": "http://localhost:3000/getall",
           "data_path": "",
           "format_fields": {
-            "id": "id",
             "name": "name",
-            "area": "city",
-            "address": "address",
-            "lat": "latitude",
-            "lng": "longitude"
+            "address": "address"
           },
           "service_infos": [
             {
-              "title": "備註",
+              "title": "詳細資訊",
               "value_fields": [
                 {
-                  "title": "可借車輛",
-                  "value_field": "available_rent_bikes"
+                  "title": "供應者id",
+                  "value_field": "userid"
                 },
                 {
-                  "title": "可停空位",
-                  "value_field": "available_return_bikes"
+                  "title": "種類",
+                  "value_field": "category"
+                },
+                {
+                  "title": "數量",
+                  "value_field": "quantity"
+                },
+                {
+                  "title": "葷素",
+                  "value_field": "diet"
+                },
+                {
+                  "title": "實體照片",
+                  "value_field": "photo"
+                },
+                {
+                  "title": "備註",
+                  "value_field": "memo"
                 }
               ]
-            },
-            {
-              "title": "更新時間",
-              "value_field": "updateTime"
             }
           ]
         }
