@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors"
 import router from "./router/route.js";
 
 mongoose.connect(
@@ -17,6 +18,7 @@ const PORT = 3000;
 const app = express();
 
 db.once("open", () => {
+  app.use(cors());
   app.use("/", router);
   app.listen(PORT, () => {
     console.log("connected");

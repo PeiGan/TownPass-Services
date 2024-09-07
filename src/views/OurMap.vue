@@ -178,7 +178,7 @@ const initMap = (lat: number, lng: number) => {
       // 限制使用者能縮放地圖的最大比例
       maxZoom: 20,
       // 限制使用者能縮放地圖的最小比例
-      minZoom: 0,
+      minZoom: 10,
       // 設定是否呈現右下角街景小人
       streetViewControl: false,
       // 設定是否讓使用者可以切換地圖樣式：一般、衛星圖等
