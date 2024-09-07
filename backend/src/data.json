@@ -4,17 +4,16 @@
       "name": "食物",
       "places": [
         {
-          "id": "pa-1",
-          "name": "食物",
-          "icon": "",
-          "agency": "食物",
+          "id": "pc-1",
+          "name": "多訂的便當/食物",
+          "icon": "/images/icon_toilet.svg",
+          "agency": "台北市民自行回報",
           "type": "食物",
           "data_type": "api",
-          "request_url": "",
+          "request_url": "http://localhost:3000/getall",
           "data_path": "",
           "format_fields": {
             "name": "name",
-            "amount": "amount",
             "address": "address"
           },
           "service_infos": [
@@ -22,12 +21,24 @@
               "title": "詳細資訊",
               "value_fields": [
                 {
-                  "title": "供應者",
-                  "value_field": "provider"
+                  "title": "供應者id",
+                  "value_field": "userid"
+                },
+                {
+                  "title": "種類",
+                  "value_field": "category"
+                },
+                {
+                  "title": "數量",
+                  "value_field": "quantity"
                 },
                 {
                   "title": "葷素",
-                  "value_field": "veg"
+                  "value_field": "diet"
+                },
+                {
+                  "title": "實體照片",
+                  "value_field": "photo"
                 },
                 {
                   "title": "備註",

@@ -480,7 +480,25 @@ watch(searchSpotList, updateMarkers);
           <!-- custom template -->
           <div class="flex text-grey-500">
             <span>{{ selectedSpot.distance }}公里</span>
+            <span class="mx-2">|</span>
+            <span class="mx-2">還剩{{ selectedSpot.quantity }}份</span>
+            <span class="mx-2">|</span>
+            <span class="flex">
+              <template v-if="selectedSpot.quantity >= 10">
+                <img src="/public/images/map/youbike/icon-info-ubike-green.svg" alt="" />
+                <span class="ml-1 text-[#76A732]">{{ selectedSpot.quantity }}人正在前往</span>
+              </template>
+              <template v-if="selectedSpot.quantity >= 5 && selectedSpot.quantity < 10">
+                <img src="/public/images/map/youbike/icon-info-ubike-yellow.svg" alt="" />
+                <span class="ml-1 text-secondary-500">{{ selectedSpot.quantity }}人正在前往</span>
+              </template>
+              <template v-if="selectedSpot.quantity < 5">
+                <img src="/public/images/map/youbike/icon-info-ubike-red.svg" alt="" />
+                <span class="ml-1 text-[#E5464B]">{{ selectedSpot.quantity }}人正在前往</span>
+              </template>
+            </span>
           </div>
+  
         </div>
         <img src="@/assets/images/down-icon.svg" class="-rotate-90" alt="" />
       </div>

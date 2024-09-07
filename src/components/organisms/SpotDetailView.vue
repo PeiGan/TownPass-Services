@@ -27,26 +27,24 @@ const emit = defineEmits(['update:isExpandDetail']);
       <!-- custom template -->
       <div class="flex text-grey-500 mb-2">
         <span>{{ selectedSpot.distance }}公里</span>
-        <!-- <span class="mx-2">|</span>
+        <span class="mx-2">|</span>
+        <span class="mx-2">還剩{{ selectedSpot.quantity }}份</span>
+        <span class="mx-2">|</span>
         <span class="flex">
-          <template
-            v-if="
-              selectedSpot.available_rent_bikes !== 0 && selectedSpot.available_return_bikes !== 0
-            "
-          >
+          <template v-if="selectedSpot.quantity >= 10">
             <img src="/public/images/map/youbike/icon-info-ubike-green.svg" alt="" />
-            <span class="ml-1 text-[#76A732]">正常租借</span>
+            <span class="ml-1 text-[#76A732]">{{ selectedSpot.quantity }}人正在前往</span>
           </template>
-          <template v-if="selectedSpot.available_rent_bikes === 0">
+          <template v-if="selectedSpot.quantity >= 5 && selectedSpot.quantity < 10">
             <img src="/public/images/map/youbike/icon-info-ubike-yellow.svg" alt="" />
-            <span class="ml-1 text-secondary-500">無車可借</span>
+            <span class="ml-1 text-secondary-500">{{ selectedSpot.quantity }}人正在前往</span>
           </template>
-          <template v-if="selectedSpot.available_return_bikes === 0">
+          <template v-if="selectedSpot.quantity < 5">
             <img src="/public/images/map/youbike/icon-info-ubike-red.svg" alt="" />
-            <span class="ml-1 text-[#E5464B]"> 車位滿載</span>
+            <span class="ml-1 text-[#E5464B]">{{ selectedSpot.quantity }}人正在前往</span>
           </template>
         </span>
-        <span class="mx-2">|</span>
+        <!-- <span class="mx-2">|</span>
         <span>
           <span class="text-grey-500 mr-1">可借</span>
           <span
@@ -77,29 +75,16 @@ const emit = defineEmits(['update:isExpandDetail']);
       <p class="text-grey-500 mb-2">服務資訊</p>
       <!-- custom template -->
       <div>
-        <template v-for="(info, index) in selectedSpot.serviceInfos" :key="index">
-          <p>{{ info.title }}</p>
-          <template v-if="Array.isArray(info.value_fields)">
-            <ul class="mb-2" v-for="(subInfo, subIndex) in info.value_fields" :key="subIndex">
-              <li>- {{ subInfo.title }}：{{ subInfo.value }}</li>
-            </ul>
-          </template>
-          <template v-else>
-            <ul class="mb-2">
-              <li>- {{ info.value }}</li>
-            </ul>
-          </template>
-        </template>
-
-        <!-- <p>備註</p>
-        <ul class="mb-2">
-          <li>-可借車輛：{{ selectedSpot.available_rent_bikes }} 輛</li>
-          <li>-可停空位：{{ selectedSpot.available_return_bikes }} 輛</li>
-        </ul>
-        <p>更新時間</p>
-        <ul>
-          <li>-{{ selectedSpot.updateTime }}</li>
-        </ul> -->
+        <span>食物類別：{{ selectedSpot.category }}</span>
+      </div>
+      <div>
+        <span>飲食忌口：{{ selectedSpot.diet }}</span>
+      </div>
+      <div>
+        <span>開始時間：{{ selectedSpot.createdAt }}</span>
+      </div>
+      <div>
+        <span>更新時間：{{ selectedSpot.updatedAt }}</span>
       </div>
     </div>
   </div>

@@ -50,6 +50,23 @@ const scrollToTop = () => {
       <!-- custom template -->
       <div class="flex text-grey-500">
         <span>{{ spot.distance }}公里</span>
+        <span class="mx-2">|</span>
+        <span class="mx-2">還剩{{ spot.quantity }}份</span>
+        <span class="mx-2">|</span>
+        <span class="flex">
+          <template v-if="spot.quantity >= 10">
+            <img src="/public/images/map/youbike/icon-info-ubike-green.svg" alt="" />
+            <span class="ml-1 text-[#76A732]">{{ spot.quantity }}人正在前往</span>
+          </template>
+          <template v-if="spot.quantity >= 5 && spot.quantity < 10">
+            <img src="/public/images/map/youbike/icon-info-ubike-yellow.svg" alt="" />
+            <span class="ml-1 text-secondary-500">{{ spot.quantity }}人正在前往</span>
+          </template>
+          <template v-if="spot.quantity < 5">
+            <img src="/public/images/map/youbike/icon-info-ubike-red.svg" alt="" />
+            <span class="ml-1 text-[#E5464B]">{{ spot.quantity }}人正在前往</span>
+          </template>
+        </span>
         <!-- <span class="mx-2">|</span>
         <span class="flex">
           <template v-if="spot.available_rent_bikes !== 0 && spot.available_return_bikes !== 0">
