@@ -127,7 +127,7 @@ watch(
 }
 
 .bg-primary-500 {
-  background-color: #5ab4c5; /* Adjust to your theme's primary color */
+  background-color: #2eb6c7; /* Adjust to your theme's primary color */
 }
 
 .text-white {

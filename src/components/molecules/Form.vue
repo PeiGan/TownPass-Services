@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive, watch } from 'vue';
+
 import BaseButton from '@/components/atoms/BaseButton.vue';
 import BaseInput from '@/components/atoms/BaseInput.vue';
 import BaseSelect from '@/components/atoms/BaseSelect.vue';
@@ -10,6 +11,7 @@ export interface BasicForm {
   name: string;
   category: string;
   diet: string;
+  useCurrentLocation: boolean;
   address: string;
   quantity: number;
   notes: string;
@@ -31,13 +33,13 @@ const form = reactive<BasicForm>({
   name: '',
   category: '',
   diet: '',
-  address: '',
+  useCurrentLocation: true,
+  address: '現在位置',
   quantity: 1,
   notes: '',
   photo: ''
 });
 
-// Watch the form changes
 watch(
   () => form,
   () => {
@@ -45,11 +47,15 @@ watch(
       const value = form[key as keyof BasicForm];
 
       if (key === 'quantity') {
-        return typeof value === 'number' && value >= 0;
+        return typeof value === 'number' && value > 0;
       }
 
       if (key === 'photo') {
         return typeof value === 'string' && value.startsWith('data:image');
+      }
+
+      if (key === 'useCurrentLocation' && form.useCurrentLocation) {
+        return true;
       }
 
       return !!value;
@@ -63,12 +69,10 @@ watch(
   { deep: true }
 );
 
-// Function to handle form submission
 const handleSubmit = () => {
   emit('onFormSubmit', form);
 };
 
-// Function to handle form cancellation
 const handleCancel = () => {
   emit('onCancel');
 };
@@ -89,9 +93,10 @@ const dietOptions = [
 
 <template>
   <section>
-    <!-- Form fields as in the original code -->
-    <div class="grid grid-rows-[1fr] transition-all">
-      <div class="overflow-hidden flex flex-col gap-4 pt-5">
+    <div class="py-5 px-4">
+      <!-- Form fields as in the original code -->
+      <div class="grid grid-rows-[1fr] transition-all">
+        <div class="overflow-hidden flex flex-col gap-4 pt-5">
           <!-- Name field -->
           <div class="flex flex-col">
             <label for="name" class="field-label">
@@ -143,10 +148,43 @@ const dietOptions = [
             />
           </div>
 
-          <!-- Address field -->
+          <!-- Address selection -->
           <div class="flex flex-col">
+            <label class="field-label">地址</label>
+            <div class="flex gap-4">
+              <BaseButton
+                :outline="!form.useCurrentLocation"
+                :active="form.useCurrentLocation"
+                class="px-4 py-2 rounded-full"
+                @click="
+                  () => {
+                    form.useCurrentLocation = true;
+                    form.address = '現在位置';
+                  }
+                "
+              >
+                現在位置
+              </BaseButton>
+              <BaseButton
+                :outline="form.useCurrentLocation"
+                :active="!form.useCurrentLocation"
+                class="px-4 py-2 rounded-full"
+                @click="
+                  () => {
+                    form.useCurrentLocation = false;
+                    form.address = '';
+                  }
+                "
+              >
+                其他地址
+              </BaseButton>
+            </div>
+          </div>
+
+          <!-- Custom address input field, only shown if 'Other address' is selected -->
+          <div v-if="!form.useCurrentLocation" class="flex flex-col">
             <label for="address" class="field-label">
-              地址
+              其他地址
               <span>*</span>
             </label>
             <BaseInput
@@ -155,7 +193,7 @@ const dietOptions = [
               placeholder="請輸入地址"
               :required="true"
               :triggerValidate="props.triggerValidate"
-              label="地址"
+              label="其他地址"
               v-model="form.address"
             />
           </div>
@@ -224,8 +262,9 @@ const dietOptions = [
             />
           </div>
           <div class="flex justify-between mt-4">
-          <BaseButton outline @click="handleCancel">取消</BaseButton>
-          <BaseButton @click="handleSubmit">確認</BaseButton>
+            <BaseButton outline @click="handleCancel">取消</BaseButton>
+            <BaseButton @click="handleSubmit">確認</BaseButton>
+          </div>
         </div>
       </div>
     </div>
