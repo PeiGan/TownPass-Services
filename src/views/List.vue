@@ -31,11 +31,29 @@ import type { User } from '@/stores/user';
 const activeStep = ref(1);
 let editIndex = ref<number | null>(null);
 
+const userStore = useUserStore();
+
+const { user } = storeToRefs(userStore);
+
+const handleUserInfo = (event: { data: string }) => {
+  const result: { name: string; data: User } = JSON.parse(event.data);
+
+  user.value = result.data;
+};
+
+useConnectionMessage('userinfo', null);
+
+useHandleConnectionData(handleUserInfo);
+
 // 初始活動列表，包含表單的所有字段，包括圖片
-const activities = ref([
-  { name: '活動1', category: '食物', diet: '葷', address: '地址1', quantity: 1, notes: '備註1', photo: '圖片URL1' },
-  { name: '活動2', category: '飲料', diet: '素', address: '地址2', quantity: 2, notes: '備註2', photo: '圖片URL2' }
-]);
+
+const data = await fetch('http://localhost:3000/getbyuserid',{ userid: user?.value.id });
+const activities = ref(await data.json());
+
+// const activities = ref([
+//   { name: '活動1', category: '食物', diet: '葷', address: '地址1', quantity: 1, notes: '備註1', photo: '圖片URL1' },
+//   { name: '活動2', category: '飲料', diet: '素', address: '地址2', quantity: 2, notes: '備註2', photo: '圖片URL2' }
+// ]);
 
 // 刪除活動
 const removeActivity = (index: number) => {
