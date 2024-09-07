@@ -5,40 +5,38 @@ const router = express.Router();
 
 router.use(express.json());
 
+router.delete("deletebyid", async (req, res) => {
+})
+
 router.get("/getall", async (req, res) => {
-  try{
+  try {
     const data = await FoodModel.find();
     res.send(data);
     return;
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.get("/getbyuserid", async (req, res) => {
+  const userid = req.body.userid;
+  try {
+    const data = await FoodModel.find({ userid: userid });
+    res.send(data);
   } catch(e){
     console.log(e);
   }
 });
 
-router.get("/getbyuser", (req, res) => {
-  const user = req.body.user;
-  return getByUser(user);
-});
-
 router.post("/insertfood", async (req, res) => {
   const food = req.body;
   const newFood = new FoodModel(food);
-  try{
+  try {
     await newFood.save();
     res.send("success");
-  }catch(e){
+  } catch (e) {
     console.log(e);
   }
 });
-
-async function getByUser(user) {
-  const data = await FoodModel.find({ provider: user });
-  try {
-    return data;
-  }
-  catch (e) {
-    console.log("error: " + e);
-  }
-}
 
 export default router;
