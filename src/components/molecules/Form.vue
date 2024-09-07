@@ -26,8 +26,6 @@ import { useConnectionMessage } from '@/composables/useConnectionMessage';
 import { useHandleConnectionData } from '@/composables/useHandleConnectionData';
 import ServiceTabsView from '@/components/organisms/ServiceTabsView.vue';
 import ServiceStep from '@/components/molecules/ServiceStep.vue';
-import serviceListJson from '../../public/mock/service_list.json';
-import caseProgressJson from '../../public/mock/case_progress.json';
 import type { User } from '@/stores/user'
 
 /*const props = withDefaults(defineProps<{
@@ -74,6 +72,7 @@ const props = withDefaults(
 const emit = defineEmits(['onFormChange', 'onFormSubmit', 'onCancel']);
 
 const form = reactive<BasicForm>({
+  userid: '', 
   name: '',
   category: '',
   diet: '',
