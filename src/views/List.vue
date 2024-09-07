@@ -28,29 +28,13 @@ import serviceListJson from '../../public/mock/service_list.json';
 import caseProgressJson from '../../public/mock/case_progress.json';
 import type { User } from '@/stores/user';
 
-const userStore = useUserStore();
-
-const { user } = storeToRefs(userStore);
-
-const handleUserInfo = (event: { data: string }) => {
-  const result: { name: string; data: User } = JSON.parse(event.data);
-
-  user.value = result.data;
-};
-
-useConnectionMessage('userinfo', null);
-
-useHandleConnectionData(handleUserInfo);
-
-
 const activeStep = ref(1);
 let editIndex = ref<number | null>(null);
 
-// 初始活動列表，包含活動名稱、參加人數、額外資訊
+// 初始活動列表，包含表單的所有字段，包括圖片
 const activities = ref([
-  { name: '活動1', participants: 20, info: '額外資訊1' },
-  { name: '活動2', participants: 30, info: '額外資訊2' },
-  { name: '活動3', participants: 10, info: '額外資訊3' }
+  { name: '活動1', participants: 20, info: '額外資訊1', category: '食物', diet: '葷', address: '地址1', quantity: 1, notes: '備註1', photo: '圖片URL1' },
+  { name: '活動2', participants: 30, info: '額外資訊2', category: '飲料', diet: '素', address: '地址2', quantity: 2, notes: '備註2', photo: '圖片URL2' }
 ]);
 
 // 刪除活動
@@ -76,7 +60,7 @@ const onModify = () => {
 };
 
 // 確認按鈕新增或修改活動並回到列表
-const onConfirm = (newActivity: { name: string; participants: number; info: string }) => {
+const onConfirm = (newActivity: { name: string; participants: number; info: string; category: string; diet: string; address: string; quantity: number; notes: string; photo: string }) => {
   if (editIndex.value !== null) {
     activities.value[editIndex.value] = newActivity;
   } else {
@@ -95,13 +79,22 @@ const onConfirm = (newActivity: { name: string; participants: number; info: stri
       </section>
       <ul class="mt-4">
         <li v-for="(activity, index) in activities" :key="index"
-          class="flex items-center justify-between p-2 bg-white shadow-sm mb-2 rounded">
+          class="flex items-start justify-between p-4 bg-white shadow-sm mb-2 rounded">
           <div>
             <h3 class="text-lg font-semibold">{{ activity.name }}</h3>
             <p>參加人數: {{ activity.participants }}</p>
+            <p>類別: {{ activity.category }}</p>
+            <p>葷/素: {{ activity.diet }}</p>
+            <p>地址: {{ activity.address }}</p>
+            <p>份數: {{ activity.quantity }}</p>
+            <p>備註: {{ activity.notes }}</p>
             <p>額外資訊: {{ activity.info }}</p>
+            <div v-if="activity.photo">
+              <p>照片:</p>
+              <img :src="activity.photo" alt="活動照片" class="w-32 h-32 object-cover rounded-md">
+            </div>
           </div>
-          <div>
+          <div class="flex flex-col items-end">
             <BaseButton outline @click="navigateToEditForm(index)" class="mr-2">修改</BaseButton>
             <BaseButton @click="removeActivity(index)">刪除</BaseButton>
           </div>
