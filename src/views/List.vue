@@ -57,6 +57,7 @@ onMounted( async () => {
   const userid = (user.value? user.value.id : "");
   await axios.post('http://localhost:3000/getbyuserid', { userid: userid }).then((response) => {
     activities.value = response.data;
+    console.log(response.data);
   });
 });
 
@@ -85,7 +86,16 @@ const navigateToEditForm = (index: number) => {
   activeStep.value = 3;
 };
 
-
+const endActivity = async(_id: string) => {
+  console.log(_id);
+  await axios.get('http://localhost:3000/endbyid', {params: {_id: _id} }).then((response) => {
+    console.log(response);
+  });
+  const userid = (user.value? user.value.id : "");
+  await axios.post('http://localhost:3000/getbyuserid', { userid: userid }).then((response) => {
+    activities.value = response.data;
+  });
+}
 
 const handleClick = async (index: number, data) => {
   console.log(data._id);
@@ -161,8 +171,11 @@ const onConfirm = (newActivity: { _id: string; name: string; participants: numbe
 
           <!-- 修改和刪除按鈕 -->
           <div class="flex flex-col items-center justify-center">
-            <BaseButton @click="navigateToEditForm(index)" class="mb-2">修改</BaseButton>
-            <BaseButton outline @click="removeActivity(index)" class="mt-2">刪除</BaseButton>
+            <li v-if="activity.ended !== 'true'">
+              <BaseButton @click="navigateToEditForm(index)" class="mb-2">修改</BaseButton>
+            </li>
+            <!-- <BaseButton @click="navigateToEditForm(index)" class="mb-2">修改</BaseButton> -->
+            <BaseButton outline @click="endActivity(activity._id)" class="mt-2">結案</BaseButton>
           </div>
         </li>
       </ul>
