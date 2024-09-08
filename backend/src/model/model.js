@@ -26,6 +26,10 @@ const FoodSchema = new schema(
     lng: {
       type: Number,
       default: 121.535173,
+    },
+    ended: {
+      type: String,
+      default: false,
     }
   },
   { timestamps: true },

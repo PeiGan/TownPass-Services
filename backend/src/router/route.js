@@ -6,6 +6,18 @@ const router = express.Router();
 
 router.use(express.json());
 
+router.get('/endbyid', async (req, res) => {
+  const _id = req.query._id;
+  // console.log("fuck");
+  console.log("_id: " + _id);
+  try {
+    await FoodModel.updateOne({ _id: _id }, { $set: { ended: true } });
+    res.send("success");
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 router.post("/deletebyid", async (req, res) => {
   const _id = req.body._id;
   console.log(req.body);
