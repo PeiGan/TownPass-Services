@@ -85,15 +85,7 @@ const navigateToEditForm = (index: number) => {
   activeStep.value = 3;
 };
 
-const deleteCurrentObject = async (_id: String) => {
-  await axios.post('http://localhost:3000/deletebyid', { _id: _id, }).then((response) => {
-    //console.log(response);
-  });
-  const userid = (user.value? user.value.id : "");
-  await axios.post('http://localhost:3000/getbyuserid', { userid: userid }).then((response) => {
-    activities.value = response.data;
-  });
-};
+
 
 const handleClick = async (index: number, data) => {
   console.log(data._id);
@@ -106,7 +98,7 @@ const onModify = () => {
 };
 
 // 確認按鈕新增或修改活動並回到列表
-const onConfirm = (newActivity: { name: string; participants: number; info: string; category: string; diet: string; address: string; quantity: number; notes: string; photo: string }) => {
+const onConfirm = (newActivity: { _id: string; name: string; participants: number; info: string; category: string; diet: string; address: string; quantity: number; notes: string; photo: string }) => {
   if (editIndex.value !== null) {
     activities.value[editIndex.value] = newActivity;
   } else {
@@ -120,46 +112,68 @@ const onConfirm = (newActivity: { name: string; participants: number; info: stri
   <div class="pb-8">
     <!-- 活動列表展示區 -->
     <form v-show="activeStep === 1" @submit.stop="">
-      <section class="fixed top-0 left-0 z-10 w-screen bg-grey-50 px-4 pt-5 pb-4 flex justify-between">
-        <span class="font-bold text-xl mt-4">活動列表</span>
+      <section
+        class="fixed top-0 left-0 z-10 w-screen bg-grey-50 px-4 pt-5 pb-4 flex justify-between"
+      >
+        <span class="font-bold text-xl mt-4">餐食列表</span>
       </section>
       <ul class="mt-20">
-        <li v-for="(activity, index) in activities" :key="index"
-          class="flex items-start justify-between p-4 bg-white shadow-sm mb-2 rounded">
-          <ul class="flex flex-col gap-y-2">
-            <li class="font-bold text-xl">{{ activity.name }}</li>
-            
-            <!-- 地址與圖標放在同一行 -->
+        <li
+          v-for="(activity, index) in activities"
+          :key="index"
+          class="flex items-center justify-between p-4 bg-white shadow-sm mb-2 rounded"
+        >
+          <!-- 照片在左側 -->
+          <div class="mr-4">
+            <img
+              v-if="activity.photo"
+              :src="activity.photo"
+              class="w-24 h-24 object-cover rounded-md"
+            />
+          </div>
+
+          <!-- 右側文字內容 -->
+          <ul class="flex flex-col gap-y-2 flex-1">
+            <!-- 活動名稱 -->
+            <li class="font-bold text-2xl">{{ activity.name }}</li>
+
+            <!-- 地址 -->
             <li class="flex items-center">
-              <img src="@/assets/images/icon-geo.svg" class="w-5 h-5 mr-2" /> 
-              <p class="underline">{{ activity.address }}</p> 
+              <img src="@/assets/images/icon-geo.svg" class="w-5 h-5 mr-2" />
+              <p class="underline">{{ activity.address }}</p>
             </li>
 
-            <!-- 類別、葷素、參加人數、份數放在同一行 -->
-            <li class="flex gap-x-4">
+            <!-- 分成三個區塊的資訊 (類別、葷素、份數) -->
+            <li class="grid grid-cols-3 gap-x-4">
               <span>類別: {{ activity.category }}</span>
               <span>葷/素: {{ activity.diet }}</span>
               <span>份數: {{ activity.quantity }}</span>
             </li>
 
-            <li>備註: {{ activity.notes }}</li>
-            <li v-if="activity.photo">照片: 
-              <img :src="activity.photo" alt="活動照片" class="w-32 h-32 object-cover rounded-md">
+            <!-- 備註移到最下面，並確保長文本會使用省略號 -->
+            <li
+              class="text-gray-500 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
+              style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
+            >
+              備註: {{ activity.notes }}
             </li>
           </ul>
 
-          <div class="flex flex-col items-end">
-            <BaseButton outline @click="handleClick(index, activity)" class="mb-2 mr-2">修改</BaseButton>
-            <BaseButton @click="deleteCurrentObject(activity._id)" class="mr-2">刪除</BaseButton>
+          <!-- 修改和刪除按鈕 -->
+          <div class="flex flex-col items-center justify-center">
+            <BaseButton @click="navigateToEditForm(index)" class="mb-2">修改</BaseButton>
+            <BaseButton outline @click="removeActivity(index)" class="mt-2">刪除</BaseButton>
           </div>
         </li>
       </ul>
       <!-- 分隔線 -->
-      <div class="fixed bottom-16 left-0 z-10 w-full h-2 bg-grey-50 my-4"></div>
-      <div class="fixed bottom-0 left-0 z-5 w-full bg-white px-2 py-2" style = "height: 5rem;">  
+      <div class="bottom-16 left-0 z-10 w-full h-2 bg-grey-50 my-4"></div>
+      <div class="bottom-0 left-0 z-5 w-full bg-white px-2 py-2" style="height: 5rem">
         <!-- 新增活動按鈕 -->
         <div class="flex w-full gap-x-4">
-          <BaseButton outline @click="$router.push({ path: '/ourmap' })" class="w-1/2">返回地圖</BaseButton>
+          <BaseButton outline @click="$router.push({ path: '/ourmap' })" class="w-1/2">
+            返回地圖
+          </BaseButton>
           <BaseButton @click="navigateToCreateForm" class="w-1/2">新增活動</BaseButton>
         </div>
       </div>
@@ -172,7 +186,12 @@ const onConfirm = (newActivity: { name: string; participants: number; info: stri
 
     <!-- 修改活動頁面 -->
     <div v-if="activeStep === 3">
-      <ModifyActivity v-if="editIndex !== null" :submitForm="activities[editIndex]" @onModify="onModify" @onConfirm="onConfirm" />
+      <ModifyActivity
+        v-if="editIndex !== null"
+        :submitForm="activities[editIndex]"
+        @onModify="onModify"
+        @onConfirm="onConfirm"
+      />
     </div>
   </div>
 </template>

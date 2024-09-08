@@ -12,6 +12,7 @@ import axios from 'axios';
 const emit = defineEmits(['onModify', 'onConfirm']);
 const props = defineProps<{
   submitForm: {
+    _id: string;
     name: string;
     category: string;
     diet: string;
@@ -23,6 +24,7 @@ const props = defineProps<{
 }>();
 
 const form = reactive({
+  _id: "", 
   name: '',
   category: '',
   diet: '',
@@ -75,8 +77,9 @@ watch(
 );
 
 // 提交表單
-const handleSubmit = async () => {
-  const userid = user.value ? user.value.id : "default_user_id";
+const handleSubmit = async (_id: String) => {
+  await deleteCurrentObject(_id);
+  const userid = user.value ? user.value.id : "";
   const submitData = {
     id: "", // 修改時可帶入現有ID
     userid: userid,
@@ -93,22 +96,30 @@ const handleSubmit = async () => {
   emit('onConfirm', submitData);
 };
 
+const deleteCurrentObject = async (_id: String) => {
+  console.log(_id);
+  await axios.post('http://localhost:3000/deletebyid', { _id: _id, }).then((response) => {
+    console.log(response);
+  });
+};
+
 // 取消操作
 const handleCancel = () => {
   emit('onModify');
 };
 
 const categoryOptions = [
-  { label: '主食', value: 'food' },
-  { label: '點心', value: 'snack' },
-  { label: '飲料', value: 'drink' },
-  { label: '食材', value: 'ingredient' }
+  { label: '主食', value: '主餐' },
+  { label: '點心', value: '點心' },
+  { label: '飲料', value: '飲料' },
+  { label: '食材', value: '食材' },
+  { label: '其他', value: '其他' }
 ];
 
 const dietOptions = [
-  { label: '葷', value: 'non-vegetarian' },
-  { label: '素', value: 'vegetarian' },
-  { label: '蛋奶素', value: 'half-vegetarian' }
+  { label: '葷', value: '葷' },
+  { label: '素', value: '素' },
+  { label: '蛋奶素', value: '蛋奶素' }
 ];
 </script>
 
@@ -226,7 +237,7 @@ const dietOptions = [
         <!-- 按鈕 -->
         <div class="flex justify-between mt-4">
           <BaseButton outline @click="handleCancel" class="w-1/2 mr-2">取消</BaseButton>
-          <BaseButton @click="handleSubmit" class="w-1/2 ml-2">確認</BaseButton>
+          <BaseButton @click="handleSubmit(submitForm._id)" class="w-1/2 ml-2">確認</BaseButton>
         </div>
       </div>
     </div>

@@ -45,7 +45,7 @@ const emit = defineEmits(['onModify', 'onConfirm']);
 
 const formData = ref({}); // Hold form data
 
-const userid = (user.value?user.value.id:"default_user_id");
+const userid = (user.value?user.value.id:"");
 
 const onFormSubmit = async (submittedData: any) => {
   formData.value = submittedData;

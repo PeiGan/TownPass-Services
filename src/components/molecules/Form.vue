@@ -121,16 +121,17 @@ const handleCancel = () => {
 };
 
 const categoryOptions = [
-  { label: '主食', value: 'food' },
-  { label: '點心', value: 'snack' },
-  { label: '飲料', value: 'drink' },
-  { label: '食材', value: 'ingredient' }
+  { label: '主食', value: '主餐' },
+  { label: '點心', value: '點心' },
+  { label: '飲料', value: '飲料' },
+  { label: '食材', value: '食材' },
+  { label: '其他', value: '其他' }
 ];
 
 const dietOptions = [
-  { label: '葷', value: 'non-vegetarian' },
-  { label: '素', value: 'vegetarian' },
-  { label: '蛋奶素', value: 'half-vegetarian' }
+  { label: '葷', value: '葷' },
+  { label: '素', value: '素' },
+  { label: '蛋奶素', value: '蛋奶素' }
 ];
 </script>
 
